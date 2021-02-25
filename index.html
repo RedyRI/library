@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIBRARY</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Akaya+Telivigala&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pangolin&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="form-place hide">
+        <form >
+            <span class="close">&times;</span>
+            <h2>ADD A NEW BOOK</h2>
+
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" placeholder="e.g. Harry Potter" autofocus>
+            <label for='author'>Author:</label>
+            <input type="text" id="author" name="author" placeholder="e.g. J.K. Rowling">
+            <label for="pages">Pages:</label>
+            <input type="number" min="1" id="pages" name="pages" placeholder="e.g. 250">
+            <label for="read">Have you already read it :) ?</label>
+            <select name="read" id="read" class="read-value">
+                <option value="not selected" selected disabled>select an option</option>
+                <option value="yes">yes</option>
+                <option value="no">no</option>
+            </select>
+            <button class="save">Save</button>
+        </form>
+    </div>
+    <header>
+        <h1>your library</h1>
+        <div class="select-section">
+            <label for="filter">Filter By: </label>
+            <select name="filter" id="filter">
+                <option value="title">Title</option>
+                <option value="author">Author</option>
+                <option value="read">Read</option>
+                <option value="not-read">Not read</option>
+            </select>
+            <input type="text" class="filter-char">
+        </div>
+    </header>
+    <button class="add-book">+</button>
+    <div class="main"></div>
+    <div class="edit-form">
+        <form >
+            <span class="close">&times;</span>
+            <h2>Edit your book info</h2>
+            
+            <label for="edit-title">Title:</label>
+            <input type="text" id="edit-title" name="edit-title" placeholder="e.g. Harry Potter" autofocus>
+            <label for='edit-autor'>Author:</label>
+            <input type="text" id="edit-autor" name="edit-autor" placeholder="e.g. J.K. Rowling">
+            <label for="edit-pages">Pages:</label>
+            <input type="number" min="1" id="edit-pages" name="edit-pages" placeholder="e.g. 250">
+            <label for="edit-read">Have you already read it :) ?</label>
+            <select name="edit-read" id="edit-read" class="read-value">
+                <option value="not selected" selected disabled>select an option</option>
+                <option value="yes">yes</option>
+                <option value="no">no</option>
+            </select>
+            <button class="save-edited">Save</button>
+        </form>
+    </div>
+    <script src="./app.js"></script>
+</body>
+</html>
