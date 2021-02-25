@@ -80,7 +80,7 @@ button {
 form {
     width: 50%;
     padding: 20px;
-    margin: 0 auto;
+    margin: 10% auto auto auto;
     margin-top: 10%;
     border: solid black 1px;
     background-color: #F2E7C9;
@@ -88,9 +88,11 @@ form {
     font-size: 1.2rem;
     position: relative;
 }
+
 form > h2 {
     text-align: center;
 }
+
 .close {
     color: lightgray;
     position: absolute;
@@ -105,7 +107,6 @@ form > h2 {
     font-size: 2.1rem;
     border-radius: 50%;
     font-weight: bolder;
-    /* transform: rotate(45deg); */
 }
 
 .close:hover{
@@ -133,15 +134,12 @@ select {
     width: 90%;
 }
 
-
 .save {
     display: block;
     width: 80%;
     margin: 20px auto 0 auto;
     padding: 8px 10px;
 }
-
-
 
 @keyframes desappear {
     0% {
@@ -336,8 +334,8 @@ header {
         width: 75%;
         margin: 1% 12.5%;
     }
-    .form {
-        width: 75%;
+    form {
+        width: 80%;
     }
 
 }
