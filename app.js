@@ -1,5 +1,31 @@
 let myLibrary = [];
 
+
+if(localStorage.length != 0) {
+    let storedBooks = JSON.parse(JSON.stringify(localStorage));
+    console.log(storedBooks);
+    for (let key in storedBooks) {
+        console.log(key);
+        if (key == 'lastid') {
+            console.log(storedBooks[key]);
+        } else {
+            myLibrary.push(JSON.parse(storedBooks[key]));
+            
+        }
+    }
+} else {
+    localStorage.setItem('lastid', 0);
+}
+
+myLibrary.forEach(item => item.showing = false)
+
+const bookIdGenerator = (function() {
+    let x = +localStorage.getItem('lastid');
+    return function() {
+        return x += 1;
+    }
+})();
+
 let main = document.querySelector('.main');
 let addForm = document.querySelector('.form-place');
 let addButton = document.querySelector('.add-book');
@@ -82,7 +108,10 @@ function createBook(field, id) {
                 if(validate('read', read.value)) {
                     alert('have you read the book?')
                 } else {
-                    return book = new Book(title, author, page, readed, false, bookId);
+                    let book = new Book(title, author, page, readed, false, bookId);
+                    localStorage.setItem(bookId, JSON.stringify(book));
+                    localStorage.setItem('lastid', bookId)
+                    return book;
                 }
             } else {
                 alert('enter a valid number for pages')
@@ -129,10 +158,15 @@ function createCard(book) {
 
     readBtn.addEventListener('click', e => {
         e.target.classList.toggle('not-read');
+        let index = myLibrary.findIndex(item => item.id == book.id);
         if (e.target.classList.contains('not-read')) {
             e.target.textContent = 'not read yet';
+            myLibrary[index].read = false;
+            localStorage.setItem(book.id, JSON.stringify(myLibrary[index]))
         } else {
             e.target.textContent = 'read';
+            myLibrary[index].read = true;
+            localStorage.setItem(book.id, JSON.stringify(myLibrary[index]))
         }
     })
 
@@ -171,7 +205,7 @@ function validate (field, str) {
 }
 
 function showLibrary () {
-
+    console.log('showing libreary');
     myLibrary.forEach(item => {
          console.log('item showed');
          if(item.showing == false) {
@@ -271,9 +305,11 @@ let saveEdited = editForm.querySelector('.save-edited');
 saveEdited.addEventListener('click', e => {
     e.preventDefault();
     let book = createBook(editForm, cardToBeEdited);
+    localStorage.setItem(book.id, JSON.stringify(book));
     if(book) {
         editForm.style.display = 'none';
-        myLibrary.splice(cardToBeEdited-1, 1, book);
+        let index = myLibrary.findIndex(item => item.id == cardToBeEdited);
+        myLibrary.splice(index, 1, book);
         function replaceBook(cb) {
             main.querySelectorAll('.card').forEach(item => {
                 main.removeChild(item);
@@ -307,28 +343,6 @@ editForm.addEventListener('click', e => {
     }
 })
 
-const bookIdGenerator = (function() {
-    let x = 0;
-    return function() {
-        return x += 1;
-    }
-})();
-
-
-// some test books
-let theHobbit = new Book('the hobbit', 'an author', 245, true, false, bookIdGenerator());
-myLibrary.push(theHobbit)
-let harryPotter = new Book('harry potter', 'another author', 500, false, false, bookIdGenerator());
-myLibrary.push(harryPotter)
-let harryPotter2 = new Book('harry potter 2', 'the same author', 500, true, false, bookIdGenerator());
-myLibrary.push(harryPotter2)
-let theHobbit1 = new Book('the hobbit', 'an author', 245, true, false, bookIdGenerator());
-myLibrary.push(theHobbit1)
-let harryPotter1 = new Book('harry potter', 'another author', 500, false, false, bookIdGenerator());
-myLibrary.push(harryPotter1)
-let harryPotter3 = new Book('harry potter 2', 'the same author', 500, true, false, bookIdGenerator());
-myLibrary.push(harryPotter3)
-
 // define the array that holds all the entries (books)
 
 // define the book constructor
@@ -358,6 +372,7 @@ main.addEventListener('click', e => {
             function printOnScreen(cb) {
                 let elem = e.target.parentNode.parentNode
                 let dataId = elem.getAttribute('data-id');
+                localStorage.removeItem(dataId);
                 let index = myLibrary.findIndex(item => item.id == dataId);
                 myLibrary.splice(index, 1);
                 main.querySelectorAll('.card').forEach(item => {
@@ -381,3 +396,38 @@ main.addEventListener('click', e => {
     }
 })
 
+function storageAvailable(type) {
+    var storage;
+    try {
+        storage = window[type];
+        var x = '__storage_test__';
+        storage.setItem(x, x);
+        storage.removeItem(x);
+        return true;
+    }
+    catch(e) {
+        return e instanceof DOMException && (
+            // everything except Firefox
+            e.code === 22 ||
+            // Firefox
+            e.code === 1014 ||
+            // test name field too, because code might not be present
+            // everything except Firefox
+            e.name === 'QuotaExceededError' ||
+            // Firefox
+            e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+            // acknowledge QuotaExceededError only if there's something already stored
+            (storage && storage.length !== 0);
+    }
+}
+
+if (storageAvailable('localStorage')) {
+    // Yippee! We can use localStorage awesomeness
+    console.log('available and ready to use');
+}
+
+showLibrary();
+
+window.addEventListener('unload', e => {
+    myLibrary.forEach(item => item.showing == false)
+})

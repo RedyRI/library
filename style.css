@@ -293,8 +293,11 @@ header {
     z-index: 1;
 }
 
+.card-header > h3 {
+    padding: 0 22px;
+}
+
 .edit-img {
-    border: solid green 1px;
     position: absolute;
     width: 20px;
     height: 20px;
@@ -307,6 +310,7 @@ header {
 
 .edit-img:hover {
     cursor: pointer;
+    background-color: rgb(255, 255, 6);
     opacity: 1;
 }
 
