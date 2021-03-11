@@ -346,14 +346,37 @@ editForm.addEventListener('click', e => {
 // define the array that holds all the entries (books)
 
 // define the book constructor
-function Book(title, author, pages, read, showing, id) {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.read = read;
-    this.showing = showing;
-    this.id = id;
-    this.info = () => {
+// function Book(title, author, pages, read, showing, id) {
+//     this.title = title;
+//     this.author = author;
+//     this.pages = pages;
+//     this.read = read;
+//     this.showing = showing;
+//     this.id = id;
+//     this.info = () => {
+//         let r;
+//         if(this.read) {
+//             r = 'Already read';
+//         } else {
+//             r = 'not read yet';
+//         }
+
+//         return `${this.title} by ${this.author}, ${this.pages}, ${r}`
+//     }
+// }
+
+// the class version
+class Book {
+    constructor (title, author, pages, read, showing, id) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.read = read;
+        this.showing = showing;
+        this.id = id;
+    }
+ 
+    info() {
         let r;
         if(this.read) {
             r = 'Already read';
